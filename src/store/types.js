@@ -1,0 +1,2 @@
+export const LOAD_PROGRAMS = 'LOAD_PROGRAMS';
+export const CREATE_PROGRAM = 'CREATE_PROGRAM';
