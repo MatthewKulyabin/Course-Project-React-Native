@@ -32,7 +32,7 @@ export const MainScreen = ({ navigation, route }) => {
         id: Date.now().toString(),
         title: 'Program Title',
         description: 'Program Description',
-        time: '00:00',
+        time: 0,
         steps: [],
       })
     );

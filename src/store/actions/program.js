@@ -51,9 +51,16 @@ export const addTask = (task, programId, stepId) => {
   };
 };
 
-export const editTask = ({ title, description, programId, stepId, taskId }) => {
+export const editTask = ({
+  title,
+  description,
+  time,
+  programId,
+  stepId,
+  taskId,
+}) => {
   return {
     type: EDIT_TASK,
-    payload: { title, description, programId, stepId, taskId },
+    payload: { title, description, time, programId, stepId, taskId },
   };
 };
