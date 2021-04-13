@@ -13,6 +13,7 @@ const initialState = {
 };
 
 export const programReducer = (state = initialState, action) => {
+  let programToEdit, stepToEdit;
   switch (action.type) {
     case LOAD_PROGRAMS:
       return {
@@ -25,7 +26,7 @@ export const programReducer = (state = initialState, action) => {
         programs: [...state.programs, action.payload],
       };
     case EDIT_PROGRAM:
-      const programToEdit = state.programs.find(
+      programToEdit = state.programs.find(
         (program) => program.id === action.payload.programId
       );
       programToEdit.title = action.payload.title;
@@ -41,7 +42,7 @@ export const programReducer = (state = initialState, action) => {
         ...state,
       };
     case EDIT_STEP:
-      const stepToEdit = state.programs
+      stepToEdit = state.programs
         .find((program) => program.id === action.payload.programId)
         .steps.find((s) => s.id === action.payload.stepId);
       stepToEdit.title = action.payload.title;
@@ -58,12 +59,26 @@ export const programReducer = (state = initialState, action) => {
         ...state,
       };
     case EDIT_TASK:
-      const taskToEdit = state.programs
-        .find((p) => p.id === action.payload.programId)
-        .steps.find((s) => s.id === action.payload.stepId)
-        .tasks.find((t) => t.id === action.payload.taskId);
+      programToEdit = state.programs.find(
+        (p) => p.id === action.payload.programId
+      );
+      stepToEdit = programToEdit.steps.find(
+        (s) => s.id === action.payload.stepId
+      );
+      const taskToEdit = stepToEdit.tasks.find(
+        (t) => t.id === action.payload.taskId
+      );
       taskToEdit.title = action.payload.title;
       taskToEdit.description = action.payload.description;
+      taskToEdit.time = action.payload.time;
+      stepToEdit.time = stepToEdit.tasks.reduce(
+        (acc, cur) => acc + cur.time,
+        0
+      );
+      programToEdit.time = programToEdit.steps.reduce(
+        (acc, cur) => acc + cur.time,
+        0
+      );
       return {
         ...state,
       };

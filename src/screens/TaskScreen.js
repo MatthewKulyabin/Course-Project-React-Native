@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { THEME } from '../theme';
 import { CustomButton } from '../components/CustomButton';
 import { Description } from '../components/Description';
 import { Icon } from '../components/Icon';
+import { editTime } from '../pureFunctions';
 
 export const TaskScreen = ({ navigation, route }) => {
   const { programId, stepId, taskId, fromWhere } = route.params;
@@ -15,8 +16,10 @@ export const TaskScreen = ({ navigation, route }) => {
     state.program.programs
       .find((program) => program.id === programId)
       .steps.find((step) => step.id === stepId)
-      .tasks.find((task) => task.id)
+      .tasks.find((task) => task.id === taskId)
   );
+
+  console.log(task);
 
   const start = () => {
     navigation.navigate('Start');
@@ -65,7 +68,7 @@ export const TaskScreen = ({ navigation, route }) => {
     <View style={styles.wrapper}>
       <CustomButton title="Start" color={THEME.MAIN_COLOR} onPress={start} />
       <View style={styles.timeWrapper}>
-        <Text style={styles.time}>{task.time}</Text>
+        <Text style={styles.time}>{editTime(task.time)}</Text>
       </View>
       <Description description={task.description} />
     </View>
