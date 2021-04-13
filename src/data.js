@@ -23,96 +23,10 @@ export const DATA = [
 						description: 'This is task 1',
 						time: '00:00',
 					},
-					{
-						id: '3',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-					{
-						id: '4',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-					{
-						id: '5',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-					{
-						id: '6',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-					{
-						id: '7',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
 				],
 			},
 			{
 				id: '2',
-				title: 'Step 2',
-				description: 'This is step 2',
-				time: '00:00',
-				tasks: [
-					{
-						id: '1',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-				],
-			},
-			{
-				id: '3',
-				title: 'Step 2',
-				description: 'This is step 2',
-				time: '00:00',
-				tasks: [
-					{
-						id: '1',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-				],
-			},
-			{
-				id: '4',
-				title: 'Step 2',
-				description: 'This is step 2',
-				time: '00:00',
-				tasks: [
-					{
-						id: '1',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-				],
-			},
-			{
-				id: '5',
-				title: 'Step 2',
-				description: 'This is step 2',
-				time: '00:00',
-				tasks: [
-					{
-						id: '1',
-						title: 'Task 1',
-						description: 'This is task 1',
-						time: '00:00',
-					},
-				],
-			},
-			{
-				id: '6',
 				title: 'Step 2',
 				description: 'This is step 2',
 				time: '00:00',
@@ -149,4 +63,10 @@ export const DATA = [
 			},
 		],
 	},
+	{
+		id: '3',
+		title: 'Program 3',
+		description: 'This is program 3',
+		time: '00:00',
+	}
 ];

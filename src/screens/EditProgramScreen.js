@@ -1,63 +1,146 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
+import {
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+  BackHandler,
+} from 'react-native';
+import { HeaderBackButton } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {THEME} from '../theme';
+import { DetailEdit } from '../components/DetailEdit';
+import { DetailList } from '../components/DetailList';
+import { Icon } from '../components/Icon';
+import { editProgram } from '../store/actions/program';
+import { addStep } from '../store/actions/program';
 
-export const EditProgramScreen = ({navigation, route}) => {
-	const {title, setTittle} = useState('');
-	const {description, setDescription} = useState('');
+export const EditProgramScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const { programId } = route.params;
+  const [update, setUpdate] = useState(false);
 
-	// Make useSelector
+  const program = useSelector((state) =>
+    state.program.programs.find((p) => p.id === programId)
+  );
+  const steps = program.steps;
 
-	if (route.params) {
-		const programId = route.params.programId;
-		console.log(route.params);
-	}
-	
-	const editStep = () => {
-		navigation.navigate('Edit Step');
-	};
+  const saveHandler = (title, description) => {
+    dispatch(editProgram({ programId, title, description }));
+    Alert.alert(
+      'Success',
+      "You've edited program",
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
-	return (
-		<View style={styles.center}>
-			<TextInput
-				style={styles.title}
-				placeholder="Enter Title of Program"
-				value={title}
-				onChange={setTittle}
-			/>
-			<TextInput
-				style={styles.description}
-				placeholder="Description"
-				value={description}
-				onChange={setDescription}
-				multiline
-			/>
-			<Button title="Edit Step" onPress={editStep} color={THEME.MAIN_COLOR} />
-		</View>
-	);
+  const addStepHandler = () => {
+    dispatch(
+      addStep(
+        {
+          id: Date.now().toString(),
+          title: 'Step Title',
+          description: 'Step Description',
+          time: '00:00',
+          tasks: [],
+        },
+        programId
+      )
+    );
+    setUpdate((state) => !state);
+  };
+
+  let backPressRemove;
+
+  const handleBackButtonClick = () => {
+    backPressRemove();
+    navigation.navigate('Program', {
+      programTitle: program.title,
+    });
+    return true;
+  };
+
+  useLayoutEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    backPressRemove = () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick
+      );
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <Icon
+            title="Add Step"
+            iconName="ios-add"
+            onPress={() => addStepHandler()}
+          />
+        );
+      },
+      headerLeft: () => {
+        return (
+          <HeaderBackButton
+            onPress={() => {
+              backPressRemove ? backPressRemove() : '';
+              navigation.navigate('Program', {
+                programTitle: program.title,
+              });
+            }}
+          />
+        );
+      },
+    });
+  }, [addStepHandler]);
+
+  const openStepHandler = ({ itemId, itemTitle }) => {
+    navigation.navigate('Step', {
+      programId: programId,
+      stepId: itemId,
+      stepTitle: itemTitle,
+      fromWhere: 'EditProgram',
+    });
+  };
+
+  const listHeaderComponent = () => (
+    <DetailEdit
+      onPress={saveHandler}
+      placeholderTitle={program.title}
+      placeholderDescription={program.description}
+    />
+  );
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <DetailList
+        data={steps}
+        onOpen={openStepHandler}
+        listHeaderComponent={listHeaderComponent}
+      />
+    </TouchableWithoutFeedback>
+  );
 };
 
-const textStyle = {
-	padding: 10,
-	marginBottom: 10,
-	color: '#000',
-	fontFamily: 'code-black',
-	borderWidth: 2,
-	borderColor: THEME.MAIN_COLOR,
-};
-
-const styles = StyleSheet.create({
-	center: {
-		flex: 1,
-		padding: 10,
-	},
-	title: {
-		...textStyle,
-	},
-	description: {
-		...textStyle,
-	},
+EditProgramScreen.options = ({ navigation }) => ({
+  title: 'Edit Program',
+  headerTitleStyle: {
+    fontFamily: 'code-black',
+  },
+  headerRight: () => {
+    return (
+      <Icon
+        title="Edit Program"
+        iconName="ios-add"
+        onPress={() => navigation.navigate('EditStep')}
+      />
+    );
+  },
 });
-

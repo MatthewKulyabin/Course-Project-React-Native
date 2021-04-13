@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
-import {bootstrap} from './src/bootstrap';
-import {AppNavigation} from './src/navigation/AppNavigation';
+import { bootstrap } from './src/bootstrap';
+import { AppNavigation } from './src/navigation/AppNavigation';
 import store from './src/store';
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
       <AppLoading
         startAsync={bootstrap}
         onFinish={() => setIsReady(true)}
-        onError={err => console.log(err)}
+        onError={(err) => console.log(err)}
       />
     );
   }

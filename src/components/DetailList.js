@@ -1,41 +1,38 @@
-import React from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, FlatList, StyleSheet, RefreshControl } from 'react-native';
 
-import {Detail} from '../components/Detail';
-import {CustomButton} from '../components/CustomButton';
-import {Description} from '../components/Description';
-import {THEME} from '../theme';
+import { Detail } from '../components/Detail';
 
-export const DetailList = ({data, onOpen, onPress, description}) => {
-	return (
-		<View style={styles.wrapper}>
-			<FlatList
-				data={data}
-				keyExtractor={item => item.id.toString()}
-				renderItem={({item}) => (
-					<Detail 
-						item={item}
-						onOpen={onOpen}
-					/>
-				)}
-				ListHeaderComponent={() => (
-					<View>
-						<CustomButton
-							title="Start"
-							color={THEME.MAIN_COLOR}
-							onPress={onPress}
-						/>
-						<Description description={description} />
-					</View>
-				)}
-			/>
-		</View>
-	);
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
+export const DetailList = ({ data, onOpen, listHeaderComponent }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  return (
+    <View style={styles.wrapper}>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Detail item={item} onOpen={onOpen} />}
+        ListHeaderComponent={() => listHeaderComponent()}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-	wrapper: {
-		flex: 1,
-		padding: 15,
-	},
+  wrapper: {
+    flex: 1,
+    padding: 15,
+  },
 });
