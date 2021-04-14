@@ -6,9 +6,13 @@ import {
   ADD_TASK,
   EDIT_STEP,
   EDIT_TASK,
+  REMOVE_PROGRAM,
+  REMOVE_STEP,
+  REMOVE_TASK,
 } from '../types';
 import { DATA } from '../../data';
 
+// Programs
 export const loadPrograms = () => {
   return {
     type: LOAD_PROGRAMS,
@@ -30,6 +34,14 @@ export const editProgram = ({ title, description, programId }) => {
   };
 };
 
+export const removeProgram = ({ programId }) => {
+  return {
+    type: REMOVE_PROGRAM,
+    payload: { programId },
+  };
+};
+
+// Steps
 export const addStep = (step, programId) => {
   return {
     type: ADD_STEP,
@@ -44,6 +56,14 @@ export const editStep = ({ title, description, programId, stepId }) => {
   };
 };
 
+export const removeStep = ({ stepId, programId }) => {
+  return {
+    type: REMOVE_STEP,
+    payload: { stepId, programId },
+  };
+};
+
+// Tasks
 export const addTask = (task, programId, stepId) => {
   return {
     type: ADD_TASK,
@@ -62,5 +82,12 @@ export const editTask = ({
   return {
     type: EDIT_TASK,
     payload: { title, description, time, programId, stepId, taskId },
+  };
+};
+
+export const removeTask = ({ programId, stepId, taskId }) => {
+  return {
+    type: REMOVE_TASK,
+    payload: { programId, stepId, taskId },
   };
 };

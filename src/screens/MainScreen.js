@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Detail } from '../components/Detail';
 import { Icon } from '../components/Icon';
-import { loadPrograms, addProgram } from '../store/actions/program';
+import {
+  loadPrograms,
+  addProgram,
+  removeProgram,
+} from '../store/actions/program';
 
 export const MainScreen = ({ navigation, route }) => {
   const [update, setUpdate] = useState(false);
@@ -56,8 +60,8 @@ export const MainScreen = ({ navigation, route }) => {
   //   dispatch(loadPrograms());
   // }, []);
 
-  const onLongPress = (item) => {
-    console.log(item);
+  const onLongPress = ({ itemId }) => {
+    dispatch(removeProgram({ programId: itemId }));
   };
 
   const programs = useSelector((state) => state.program.programs);

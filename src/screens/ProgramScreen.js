@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { View, BackHandler } from 'react-native';
 
@@ -9,8 +9,10 @@ import { Icon } from '../components/Icon';
 import { CustomButton } from '../components/CustomButton';
 import { Description } from '../components/Description';
 import { NoDetail } from '../components/NoDetail';
+import { removeStep } from '../store/actions/program';
 
 export const ProgramScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const [update, setUpdate] = useState(false);
 
   useLayoutEffect(() => {
@@ -21,10 +23,16 @@ export const ProgramScreen = ({ navigation, route }) => {
   const program = useSelector((state) =>
     state.program.programs.find((program) => program.id === programId)
   );
+  console.log(programId);
   const steps = program.steps;
 
   const editStepNavigation = () => {
     navigation.navigate('EditStep');
+  };
+
+  const removeStepHandler = ({ itemId }) => {
+    dispatch(removeStep({ programId, stepId: itemId }));
+    setUpdate((state) => !state);
   };
 
   const start = () => {
@@ -101,6 +109,7 @@ export const ProgramScreen = ({ navigation, route }) => {
       data={steps}
       onOpen={openStepHandler}
       listHeaderComponent={listHeaderComponent}
+      onLongPress={removeStepHandler}
     />
   );
 };

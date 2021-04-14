@@ -7,7 +7,4 @@ export function getStringCuted(string) {
 
 export function editTime(time) {
   return `${Math.floor(time / 60)}:${time % 60}`;
-  console.log('/', Math.floor(time / 60));
-  console.log('%', time % 60);
-  return time;
 }

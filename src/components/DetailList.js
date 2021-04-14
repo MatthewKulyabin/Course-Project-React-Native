@@ -7,20 +7,28 @@ const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
 
-export const DetailList = ({ data, onOpen, listHeaderComponent }) => {
+export const DetailList = ({
+  data,
+  onOpen,
+  listHeaderComponent,
+  onLongPress,
+}) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
   }, []);
+  console.log('DetailList press', onLongPress);
 
   return (
     <View style={styles.wrapper}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Detail item={item} onOpen={onOpen} />}
+        renderItem={({ item }) => (
+          <Detail item={item} onOpen={onOpen} onLongPress={onLongPress} />
+        )}
         ListHeaderComponent={() => listHeaderComponent()}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
