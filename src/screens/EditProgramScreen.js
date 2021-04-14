@@ -44,7 +44,7 @@ export const EditProgramScreen = ({ navigation, route }) => {
       addStep(
         {
           id: Date.now().toString(),
-          title: 'Step Title',
+          title: '<S> Title',
           description: 'Step Description',
           time: 0,
           tasks: [],

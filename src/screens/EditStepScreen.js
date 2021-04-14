@@ -40,7 +40,7 @@ export const EditStepScreen = ({ navigation, route }) => {
       addTask(
         {
           id: Date.now().toString(),
-          title: 'Task Title',
+          title: '<T> Title',
           description: 'Task Description',
           time: 0,
         },

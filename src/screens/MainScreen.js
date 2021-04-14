@@ -34,7 +34,7 @@ export const MainScreen = ({ navigation, route }) => {
     dispatch(
       addProgram({
         id: Date.now().toString(),
-        title: 'Program Title',
+        title: '<P> Title',
         description: 'Program Description',
         time: 0,
         steps: [],
