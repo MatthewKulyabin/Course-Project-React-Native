@@ -1,15 +1,18 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { View, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { THEME } from '../theme';
 import { CustomButton } from '../components/CustomButton';
 import { Description } from '../components/Description';
 import { DetailList } from '../components/DetailList';
 import { Icon } from '../components/Icon';
+import { removeTask } from '../store/actions/program';
 
 export const StepScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const [update, setUpdate] = useState(false);
   const { programId, stepId } = route.params;
   const { fromWhere } = route.params;
 
@@ -23,6 +26,11 @@ export const StepScreen = ({ navigation, route }) => {
 
   const start = () => {
     navigation.navigate('Start');
+  };
+
+  const removeTaskHandler = ({ itemId }) => {
+    dispatch(removeTask({ programId, stepId, taskId: itemId }));
+    setUpdate((state) => !state);
   };
 
   let backPressRemove;
@@ -88,6 +96,7 @@ export const StepScreen = ({ navigation, route }) => {
       data={tasks}
       onOpen={openTaskHandler}
       listHeaderComponent={listHeaderComponent}
+      onLongPress={removeTaskHandler}
     />
   );
 };

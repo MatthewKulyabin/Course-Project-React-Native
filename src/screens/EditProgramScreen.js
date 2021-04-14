@@ -12,7 +12,7 @@ import { DetailEdit } from '../components/DetailEdit';
 import { DetailList } from '../components/DetailList';
 import { Icon } from '../components/Icon';
 import { editProgram } from '../store/actions/program';
-import { addStep } from '../store/actions/program';
+import { addStep, removeStep } from '../store/actions/program';
 
 export const EditProgramScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -52,6 +52,11 @@ export const EditProgramScreen = ({ navigation, route }) => {
         programId
       )
     );
+    setUpdate((state) => !state);
+  };
+
+  const removeStepHandler = ({ itemId }) => {
+    dispatch(removeStep({ programId, stepId: itemId }));
     setUpdate((state) => !state);
   };
 
@@ -124,6 +129,7 @@ export const EditProgramScreen = ({ navigation, route }) => {
         data={steps}
         onOpen={openStepHandler}
         listHeaderComponent={listHeaderComponent}
+        onLongPress={removeStepHandler}
       />
     </TouchableWithoutFeedback>
   );

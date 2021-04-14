@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DetailList } from '../components/DetailList';
 import { DetailEdit } from '../components/DetailEdit';
 import { Icon } from '../components/Icon';
-import { addTask, editStep } from '../store/actions/program';
+import { addTask, editStep, removeTask } from '../store/actions/program';
 
 export const EditStepScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -48,6 +48,11 @@ export const EditStepScreen = ({ navigation, route }) => {
         stepId
       )
     );
+    setUpdate((state) => !state);
+  };
+
+  const removeTaskHandler = ({ itemId }) => {
+    dispatch(removeTask({ programId, stepId, taskId: itemId }));
     setUpdate((state) => !state);
   };
 
@@ -123,6 +128,7 @@ export const EditStepScreen = ({ navigation, route }) => {
         data={tasks}
         onOpen={openTaskHandler}
         listHeaderComponent={listHeaderComponent}
+        onLongPress={removeTaskHandler}
       />
     </TouchableWithoutFeedback>
   );

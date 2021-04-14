@@ -5,6 +5,7 @@ import { THEME } from '../theme';
 import { editTime } from '../pureFunctions';
 
 export const Detail = ({ item, onOpen, onLongPress }) => {
+  console.log('Detail press', onLongPress);
   return (
     <TouchableOpacity
       activeOpacity={0.7}
