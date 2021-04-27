@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderBackButton } from '@react-navigation/stack';
-import { View, BackHandler } from 'react-native';
+import { View, BackHandler, Alert } from 'react-native';
 
 import { THEME } from '../theme';
 import { DetailList } from '../components/DetailList';
@@ -10,6 +10,8 @@ import { CustomButton } from '../components/CustomButton';
 import { Description } from '../components/Description';
 import { NoDetail } from '../components/NoDetail';
 import { removeStep } from '../store/actions/program';
+import { loadProgram } from '../store/actions/startProgram';
+import { hasTasks, alertInfo } from '../pureFunctions';
 
 export const ProgramScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -23,7 +25,6 @@ export const ProgramScreen = ({ navigation, route }) => {
   const program = useSelector((state) =>
     state.program.programs.find((program) => program.id === programId)
   );
-  console.log(programId);
   const steps = program.steps;
 
   const editStepNavigation = () => {
@@ -36,7 +37,12 @@ export const ProgramScreen = ({ navigation, route }) => {
   };
 
   const start = () => {
-    navigation.navigate('Start');
+    if (program.steps.length && hasTasks(program.steps)) {
+      dispatch(loadProgram(JSON.parse(JSON.stringify(program))));
+      navigation.navigate('Start', { programId, fromWhere: 'Program' });
+    } else {
+      alertInfo({ Alert: Alert, message: 'asd', header: 'dsa' });
+    }
   };
 
   let backPressRemove;

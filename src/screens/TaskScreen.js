@@ -1,28 +1,33 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { THEME } from '../theme';
 import { CustomButton } from '../components/CustomButton';
 import { Description } from '../components/Description';
 import { Icon } from '../components/Icon';
 import { editTime } from '../pureFunctions';
+import { loadProgram } from '../store/actions/startProgram';
+import { hasTasks } from '../pureFunctions';
 
 export const TaskScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const { programId, stepId, taskId, fromWhere } = route.params;
 
-  const task = useSelector((state) =>
-    state.program.programs
-      .find((program) => program.id === programId)
-      .steps.find((step) => step.id === stepId)
-      .tasks.find((task) => task.id === taskId)
+  const program = useSelector((state) =>
+    state.program.programs.find((program) => program.id === programId)
   );
 
-  console.log(task);
+  const task = program.steps
+    .find((step) => step.id === stepId)
+    .tasks.find((task) => task.id === taskId);
 
   const start = () => {
-    navigation.navigate('Start');
+    if (program.steps.length && hasTasks(program.steps)) {
+      dispatch(loadProgram(JSON.parse(JSON.stringify(program))));
+      navigation.navigate('Start', { programId, fromWhere: 'Task' });
+    }
   };
 
   let backPressRemove;

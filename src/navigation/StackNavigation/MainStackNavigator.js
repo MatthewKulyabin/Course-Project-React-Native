@@ -46,7 +46,11 @@ export const MainStackNavigator = () => {
         component={TaskScreen}
         options={TaskScreen.options}
       />
-      <Stack.Screen name="Start" component={StartScreen} />
+      <Stack.Screen
+        name="Start"
+        component={StartScreen}
+        options={StartScreen.options}
+      />
     </Stack.Navigator>
   );
 };

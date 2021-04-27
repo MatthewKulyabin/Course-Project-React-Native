@@ -9,6 +9,7 @@ import {
   REMOVE_PROGRAM,
   REMOVE_STEP,
   REMOVE_TASK,
+  START_PROGRAM,
 } from '../types';
 
 const initialState = {
@@ -39,7 +40,6 @@ export const programReducer = (state = initialState, action) => {
         ...state,
       };
     case REMOVE_PROGRAM:
-      console.log(state.programs, action.payload.programId);
       state.programs = state.programs.filter(
         (p) => p.id !== action.payload.programId
       );

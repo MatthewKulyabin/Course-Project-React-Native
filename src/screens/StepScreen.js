@@ -9,6 +9,8 @@ import { Description } from '../components/Description';
 import { DetailList } from '../components/DetailList';
 import { Icon } from '../components/Icon';
 import { removeTask } from '../store/actions/program';
+import { loadProgram } from '../store/actions/startProgram';
+import { hasTasks } from '../pureFunctions';
 
 export const StepScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -16,16 +18,19 @@ export const StepScreen = ({ navigation, route }) => {
   const { programId, stepId } = route.params;
   const { fromWhere } = route.params;
 
-  const step = useSelector((state) =>
-    state.program.programs
-      .find((program) => program.id === programId)
-      .steps.find((step) => step.id === stepId)
+  const program = useSelector((state) =>
+    state.program.programs.find((p) => p.id === programId)
   );
+
+  const step = program.steps.find((step) => step.id === stepId);
 
   const tasks = step.tasks;
 
   const start = () => {
-    navigation.navigate('Start');
+    if (program.steps.length && hasTasks(program.steps)) {
+      dispatch(loadProgram(JSON.parse(JSON.stringify(program))));
+      navigation.navigate('Start', { programId, fromWhere: 'Step' });
+    }
   };
 
   const removeTaskHandler = ({ itemId }) => {

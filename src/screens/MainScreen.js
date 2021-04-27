@@ -56,9 +56,9 @@ export const MainScreen = ({ navigation, route }) => {
     });
   }, [addProgramHandler]);
 
-  // useLayoutEffect(() => {
-  //   dispatch(loadPrograms());
-  // }, []);
+  useLayoutEffect(() => {
+    dispatch(loadPrograms());
+  }, []);
 
   const onLongPress = ({ itemId }) => {
     dispatch(removeProgram({ programId: itemId }));

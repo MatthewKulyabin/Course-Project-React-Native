@@ -5,7 +5,6 @@ import { THEME } from '../theme';
 import { editTime } from '../pureFunctions';
 
 export const Detail = ({ item, onOpen, onLongPress }) => {
-  console.log('Detail press', onLongPress);
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -22,7 +21,6 @@ export const Detail = ({ item, onOpen, onLongPress }) => {
 
 const styles = StyleSheet.create({
   item: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

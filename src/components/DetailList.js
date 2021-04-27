@@ -19,7 +19,6 @@ export const DetailList = ({
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
   }, []);
-  console.log('DetailList press', onLongPress);
 
   return (
     <View style={styles.wrapper}>

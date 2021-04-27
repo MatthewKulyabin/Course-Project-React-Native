@@ -81,7 +81,7 @@ export const editTask = ({
 }) => {
   return {
     type: EDIT_TASK,
-    payload: { title, description, time, programId, stepId, taskId },
+    payload: { title, description, time: time, programId, stepId, taskId },
   };
 };
 
