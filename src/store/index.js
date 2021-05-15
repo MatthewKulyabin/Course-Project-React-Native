@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { programReducer } from './reducers/program';
 import { startProgramReducer } from './reducers/startProgram';
 
@@ -7,4 +8,4 @@ const rootReducer = combineReducers({
   startProgram: startProgramReducer,
 });
 
-export default createStore(rootReducer);
+export default createStore(rootReducer, applyMiddleware(thunk));

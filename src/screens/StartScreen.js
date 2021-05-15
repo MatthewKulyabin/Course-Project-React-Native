@@ -12,7 +12,6 @@ import {
   deleteStep,
   deleteTask,
 } from '../store/actions/startProgram';
-import { hasTasks } from '../pureFunctions';
 
 let interval = 0;
 let once = true;
