@@ -33,7 +33,6 @@ export const MainScreen = ({ navigation, route }) => {
   const addProgramHandler = useCallback(() => {
     dispatch(
       addProgram({
-        id: Date.now().toString(),
         title: '<P> Title',
         description: 'Program Description',
         time: 0,
