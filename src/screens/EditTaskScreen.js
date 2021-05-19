@@ -29,8 +29,11 @@ export const EditTaskScreen = ({ navigation, route }) => {
   );
   let time = task.time;
 
-  const saveHandler = (title, description) => {
-    dispatch(editTask({ title, description, time, programId, stepId, taskId }));
+  const saveHandler = async (title, description) => {
+    title = '<T> ' + title;
+    await dispatch(
+      editTask({ title, description, time, programId, stepId, taskId })
+    );
     Alert.alert(
       'Success',
       "You've edited Task",

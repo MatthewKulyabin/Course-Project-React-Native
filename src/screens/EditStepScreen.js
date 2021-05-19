@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { TouchableWithoutFeedback, Alert, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,8 +20,9 @@ export const EditStepScreen = ({ navigation, route }) => {
   );
   const tasks = step.tasks;
 
-  const saveHandler = (title, description) => {
-    dispatch(editStep({ programId, stepId, title, description }));
+  const saveHandler = async (title, description) => {
+    title = '<S> ' + title;
+    await dispatch(editStep({ programId, stepId, title, description }));
     Alert.alert(
       'Success',
       "You've edited Step",
@@ -35,8 +36,8 @@ export const EditStepScreen = ({ navigation, route }) => {
     );
   };
 
-  const addTaskHandler = () => {
-    dispatch(
+  const addTaskHandler = useCallback(async () => {
+    await dispatch(
       addTask(
         {
           title: '<T> Title',
@@ -48,10 +49,10 @@ export const EditStepScreen = ({ navigation, route }) => {
       )
     );
     setUpdate((state) => !state);
-  };
+  }, [dispatch]);
 
-  const removeTaskHandler = ({ itemId }) => {
-    dispatch(removeTask({ programId, stepId, taskId: itemId }));
+  const removeTaskHandler = async ({ itemId }) => {
+    await dispatch(removeTask({ programId, stepId, taskId: itemId }));
     setUpdate((state) => !state);
   };
 

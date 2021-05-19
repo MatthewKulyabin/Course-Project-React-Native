@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from 'react';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -22,10 +22,12 @@ export const EditProgramScreen = ({ navigation, route }) => {
   const program = useSelector((state) =>
     state.program.programs.find((p) => p.id === programId)
   );
+  console.log('Updated editProgramScreen', program);
   const steps = program.steps;
 
-  const saveHandler = (title, description) => {
-    dispatch(editProgram({ programId, title, description }));
+  const saveHandler = async (title, description) => {
+    title = '<P> ' + title;
+    await dispatch(editProgram({ programId, title, description }));
     Alert.alert(
       'Success',
       "You've edited program",
@@ -39,8 +41,8 @@ export const EditProgramScreen = ({ navigation, route }) => {
     );
   };
 
-  const addStepHandler = () => {
-    dispatch(
+  const addStepHandler = useCallback(async () => {
+    await dispatch(
       addStep(
         {
           title: '<S> Title',
@@ -51,11 +53,14 @@ export const EditProgramScreen = ({ navigation, route }) => {
         programId
       )
     );
-    setUpdate((state) => !state);
-  };
+    setUpdate((state) => {
+      console.log('Update', state);
+      return !state;
+    });
+  }, [dispatch]);
 
-  const removeStepHandler = ({ itemId }) => {
-    dispatch(removeStep({ programId, stepId: itemId }));
+  const removeStepHandler = async ({ itemId }) => {
+    await dispatch(removeStep({ programId, stepId: itemId }));
     setUpdate((state) => !state);
   };
 

@@ -5,15 +5,20 @@ import { THEME } from '../theme';
 import { editTime } from '../pureFunctions';
 
 export const Detail = ({ item, onOpen, onLongPress }) => {
+  const timeText = '<Time> ';
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={() => onOpen({ itemId: item.id, itemTitle: item.title })}
       onLongPress={() => onLongPress({ itemId: item.id })}
+      style={styles.item}
     >
-      <View style={styles.item}>
+      <View>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.time}>{editTime(item.time)}</Text>
+        <Text style={styles.time}>
+          {timeText}
+          {editTime(item.time)}
+        </Text>
       </View>
     </TouchableOpacity>
   );

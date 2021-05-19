@@ -34,7 +34,7 @@ export const programReducer = (state = initialState, action) => {
       programToEdit = state.programs.find(
         (program) => program.id === action.payload.programId
       );
-      programToEdit.title = '<P> ' + action.payload.title;
+      programToEdit.title = action.payload.title;
       programToEdit.description = action.payload.description;
       return {
         ...state,
@@ -58,7 +58,7 @@ export const programReducer = (state = initialState, action) => {
       stepToEdit = state.programs
         .find((program) => program.id === action.payload.programId)
         .steps.find((s) => s.id === action.payload.stepId);
-      stepToEdit.title = '<S> ' + action.payload.title;
+      stepToEdit.title = action.payload.title;
       stepToEdit.description = action.payload.description;
       return {
         ...state,
@@ -93,7 +93,7 @@ export const programReducer = (state = initialState, action) => {
       const taskToEdit = stepToEdit.tasks.find(
         (t) => t.id === action.payload.taskId
       );
-      taskToEdit.title = '<T> ' + action.payload.title;
+      taskToEdit.title = action.payload.title;
       taskToEdit.description = action.payload.description;
       taskToEdit.time = action.payload.time;
       stepToEdit.time = stepToEdit.tasks.reduce(

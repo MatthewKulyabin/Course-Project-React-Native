@@ -16,13 +16,8 @@ import { DB } from '../../db';
 // Programs
 export const loadPrograms = () => async (dispatch) => {
   const programs = await DB.getFromTable('programs');
-  // console.log(programs);
-  // const steps = [];
   const steps = await DB.getFromTable('steps');
-  console.log(steps);
-  // const tasks = [];
   const tasks = await DB.getFromTable('tasks');
-  console.log(tasks);
   steps.map((s) => {
     const stepId = s.id;
     return (s.tasks = tasks.filter((t) => t.step_id === stepId));
@@ -50,52 +45,62 @@ export const addProgram = (program) => async (dispatch) => {
   });
 };
 
-export const editProgram = ({ title, description, programId }) => {
-  return {
-    type: EDIT_PROGRAM,
-    payload: { title, description, programId },
+export const editProgram =
+  ({ title, description, programId }) =>
+  async (dispatch) => {
+    await DB.updateProgram({ title, description, programId });
+    dispatch({
+      type: EDIT_PROGRAM,
+      payload: { title, description, programId },
+    });
   };
-};
 
-export const removeProgram = ({ programId }) => async (dispatch) => {
-  await DB.deleteProgram(programId);
+export const removeProgram =
+  ({ programId }) =>
+  async (dispatch) => {
+    await DB.deleteProgram(programId);
 
-  dispatch({
-    type: REMOVE_PROGRAM,
-    payload: { programId },
-  });
-};
+    dispatch({
+      type: REMOVE_PROGRAM,
+      payload: { programId },
+    });
+  };
 
 // Steps
 export const addStep = (step, programId) => async (dispatch) => {
   const id = await DB.createStep({ ...step, programId });
   step.id = id;
 
+  const payload = { step, id, programId };
+
   dispatch({
     type: ADD_STEP,
-    payload: { step, programId },
-    // Параша из-за ...steps
+    payload,
   });
 };
 
-export const editStep = ({ title, description, programId, stepId }) => {
-  return {
-    type: EDIT_STEP,
-    payload: { title, description, programId, stepId },
+export const editStep =
+  ({ title, description, programId, stepId }) =>
+  async (dispatch) => {
+    await DB.updateStep({ title, description, stepId });
+    dispatch({
+      type: EDIT_STEP,
+      payload: { title, description, programId, stepId },
+    });
   };
-};
 
-export const removeStep = ({ stepId, programId }) => {
-  return {
-    type: REMOVE_STEP,
-    payload: { stepId, programId },
+export const removeStep =
+  ({ stepId, programId }) =>
+  async (dispatch) => {
+    await DB.deleteStep(stepId);
+    dispatch({
+      type: REMOVE_STEP,
+      payload: { stepId, programId },
+    });
   };
-};
 
 // Tasks
 export const addTask = (task, programId, stepId) => async (dispatch) => {
-  // console.log(DB.createTask());
-  console.log(stepId);
   const id = await DB.createTask({ ...task, programId, stepId });
   task.id = id;
 
@@ -105,23 +110,29 @@ export const addTask = (task, programId, stepId) => async (dispatch) => {
   });
 };
 
-export const editTask = ({
-  title,
-  description,
-  time,
-  programId,
-  stepId,
-  taskId,
-}) => {
-  return {
-    type: EDIT_TASK,
-    payload: { title, description, time: time, programId, stepId, taskId },
+export const editTask =
+  ({ title, description, time, programId, stepId, taskId }) =>
+  async (dispatch) => {
+    await DB.updateTask({
+      title,
+      description,
+      time,
+      programId,
+      stepId,
+      taskId,
+    });
+    dispatch({
+      type: EDIT_TASK,
+      payload: { title, description, time: time, programId, stepId, taskId },
+    });
   };
-};
 
-export const removeTask = ({ programId, stepId, taskId }) => {
-  return {
-    type: REMOVE_TASK,
-    payload: { programId, stepId, taskId },
+export const removeTask =
+  ({ programId, stepId, taskId }) =>
+  async (dispatch) => {
+    await DB.deleteTask(taskId);
+    dispatch({
+      type: REMOVE_TASK,
+      payload: { programId, stepId, taskId },
+    });
   };
-};
