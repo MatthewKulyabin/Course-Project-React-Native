@@ -119,6 +119,7 @@ export const StartScreen = ({ navigation, route }) => {
     clearInterval(interval);
     setButtonColor(THEME.MAIN_COLOR);
     setStartInt((state) => !state);
+    interval = 0;
     if (program.steps[0].tasks.length === 1) {
       dispatch(deleteStep(program.steps[0].id));
     } else {
