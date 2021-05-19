@@ -31,8 +31,8 @@ export const ProgramScreen = ({ navigation, route }) => {
     navigation.navigate('EditStep');
   };
 
-  const removeStepHandler = ({ itemId }) => {
-    dispatch(removeStep({ programId, stepId: itemId }));
+  const removeStepHandler = async ({ itemId }) => {
+    await dispatch(removeStep({ programId, stepId: itemId }));
     setUpdate((state) => !state);
   };
 

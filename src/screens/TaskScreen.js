@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { View, Text, StyleSheet, BackHandler } from 'react-native';
+import { View, Text, StyleSheet, BackHandler, AppRegistry } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 

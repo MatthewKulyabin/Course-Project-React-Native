@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 
 import { CustomButton } from '../components/CustomButton';
+import { alertInfo } from '../pureFunctions';
 import { THEME } from '../theme';
 
 export const DetailEdit = ({
@@ -11,6 +12,25 @@ export const DetailEdit = ({
 }) => {
   const [title, setTittle] = useState('');
   const [description, setDescription] = useState('');
+
+  const validateCheck = () => {
+    console.log(title.length);
+    if (title.length > 14) {
+      Alert.alert(
+        'Error',
+        'A title should be less than 24 symbols ',
+        [
+          {
+            text: 'Ok',
+            style: 'ok',
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      onPress(title, description);
+    }
+  };
 
   return (
     <View style={styles.center}>
@@ -31,7 +51,7 @@ export const DetailEdit = ({
       />
       <CustomButton
         title="Save"
-        onPress={() => onPress(title, description)}
+        onPress={validateCheck}
         color={THEME.MAIN_COLOR}
       />
     </View>

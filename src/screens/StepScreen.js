@@ -33,8 +33,8 @@ export const StepScreen = ({ navigation, route }) => {
     }
   };
 
-  const removeTaskHandler = ({ itemId }) => {
-    dispatch(removeTask({ programId, stepId, taskId: itemId }));
+  const removeTaskHandler = async ({ itemId }) => {
+    await dispatch(removeTask({ programId, stepId, taskId: itemId }));
     setUpdate((state) => !state);
   };
 

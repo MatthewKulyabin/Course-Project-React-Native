@@ -1,5 +1,12 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { View, StyleSheet, Alert, ScrollView, BackHandler } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  BackHandler,
+  AppRegistry,
+} from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -84,7 +91,7 @@ export const StartScreen = ({ navigation, route }) => {
   const startPausePress = () => {
     setStartInt((state) => !state);
     if (startInt) {
-      setButtonColor((state) => THEME.DANGER_COLOR);
+      setButtonColor(THEME.DANGER_COLOR);
       interval = setInterval(() => {
         if (program.steps[0].tasks[0].time <= 0) {
           clearInterval(interval);
@@ -93,7 +100,7 @@ export const StartScreen = ({ navigation, route }) => {
             message: 'Press "completed" to continue',
           });
           setStartInt((state) => !state);
-          setButtonColor((state) => THEME.MAIN_COLOR);
+          setButtonColor(THEME.MAIN_COLOR);
         } else {
           dispatch(
             decreaseTime(program.steps[0].id, program.steps[0].tasks[0].id)
@@ -102,13 +109,16 @@ export const StartScreen = ({ navigation, route }) => {
         setUpdate((state) => !state);
       }, 1000);
     } else {
-      setButtonColor((state) => THEME.MAIN_COLOR);
+      setButtonColor(THEME.MAIN_COLOR);
       clearInterval(interval);
       interval = 0;
     }
   };
 
   const completedPress = () => {
+    clearInterval(interval);
+    setButtonColor(THEME.MAIN_COLOR);
+    setStartInt((state) => !state);
     if (program.steps[0].tasks.length === 1) {
       dispatch(deleteStep(program.steps[0].id));
     } else {
