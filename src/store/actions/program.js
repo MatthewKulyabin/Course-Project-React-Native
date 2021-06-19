@@ -11,7 +11,7 @@ import {
   REMOVE_TASK,
 } from '../types';
 import { DATA } from '../../data';
-import { DB } from '../../db';
+// import { DB } from '../../db';
 
 // Programs
 export const loadPrograms = () => async (dispatch) => {
