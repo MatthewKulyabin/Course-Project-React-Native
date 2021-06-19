@@ -1,3 +1,4 @@
+import { loadPartialConfig } from '@babel/core';
 import {
   LOAD_PROGRAMS,
   ADD_PROGRAM,
@@ -9,7 +10,6 @@ import {
   REMOVE_PROGRAM,
   REMOVE_STEP,
   REMOVE_TASK,
-  START_PROGRAM,
 } from '../types';
 
 const initialState = {
@@ -31,7 +31,7 @@ export const programReducer = (state = initialState, action) => {
         programs: [...state.programs, action.payload],
       };
     case EDIT_PROGRAM:
-      programToEdit = state.programs.find(
+      let programToEdit = state.programs.find(
         (program) => program.id === action.payload.programId
       );
       programToEdit.title = action.payload.title;

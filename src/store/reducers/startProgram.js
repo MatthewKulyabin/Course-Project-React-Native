@@ -3,9 +3,6 @@ import {
   DELETE_STEP,
   DELETE_TASK,
   LOAD_PROGRAM,
-  REMOVE_STEP,
-  REMOVE_TASK,
-  START_PROGRAM,
 } from '../types';
 
 const initialState = {
@@ -13,9 +10,7 @@ const initialState = {
 };
 
 export const startProgramReducer = (state = initialState, action) => {
-  let taskToChange,
-    stepToChange,
-    taskTime = null;
+  let taskToChange, stepToChange;
   switch (action.type) {
     case LOAD_PROGRAM:
       state.program = action.payload;
@@ -29,27 +24,6 @@ export const startProgramReducer = (state = initialState, action) => {
       taskToChange = stepToChange.tasks.find(
         (t) => t.id === action.payload.taskId
       );
-      // // console.log('taskToChange', taskToChange);
-      // if (!stepToChange.tasks.length) {
-      //   console.log('Tasks are up');
-      //   stepToChange = state.program.steps.filter(
-      //     (s) => s.id !== action.payload.stepId
-      //   );
-      //   return {
-      //     ...state,
-      //   };
-      // } else if (taskToChange.time <= 0) {
-      //   console.log('Time is up');
-      //   stepToChange.tasks = stepToChange.tasks.filter(
-      //     (t) => t.id !== action.payload.taskId
-      //   );
-      //   console.log(state.program);
-      //   return {
-      //     ...state,
-      //   };
-      // } else {
-      //
-      // }
       --taskToChange.time;
       return {
         ...state,
@@ -58,7 +32,6 @@ export const startProgramReducer = (state = initialState, action) => {
       state.program.steps = state.program.steps.filter(
         (s) => s.id !== action.payload.stepId
       );
-      console.log('remove_step');
       return {
         ...state,
       };
@@ -69,7 +42,6 @@ export const startProgramReducer = (state = initialState, action) => {
       stepToChange.tasks = stepToChange.tasks.filter(
         (t) => t.id !== action.payload.taskId
       );
-      console.log('remove_task');
       return {
         ...state,
       };

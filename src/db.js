@@ -82,7 +82,6 @@ export class DB {
         );
       });
     });
-    await Promise.all(updatePrograms);
   }
 
   static async deleteProgram(id) {
